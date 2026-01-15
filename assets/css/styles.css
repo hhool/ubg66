@@ -224,3 +224,53 @@ a { text-decoration: none; color: inherit; transition: 0.3s; }
     line-height: 1.6;
     color: #ccc;
 }
+
+/* --- THÊM VÀO CUỐI styles.css --- */
+
+/* Bố cục chứa Game + Quảng cáo bên cạnh */
+.game-with-ad-layout {
+    display: flex;
+    gap: 20px; /* Khoảng cách giữa game và quảng cáo */
+    align-items: flex-start; /* Căn thẳng hàng bên trên */
+}
+
+/* Khu vực bên trái chứa Game (Tự động co giãn) */
+.game-area-left {
+    flex: 1; /* Chiếm toàn bộ không gian còn lại */
+    min-width: 0; /* Fix lỗi flexbox để iframe không bị tràn */
+}
+
+/* Khu vực bên phải chứa Quảng cáo (Kích thước cố định) */
+.game-ad-sidebar {
+    width: 300px; /* Chiều rộng chuẩn cho banner dọc (ví dụ 300x600) */
+    flex-shrink: 0; /* Không cho phép bị co nhỏ lại */
+    background: #202022; /* Màu nền tạm để bạn dễ nhìn vị trí */
+    border-radius: 12px;
+    padding: 10px;
+    min-height: 600px; /* Chiều cao tạm thời để demo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #888;
+    font-size: 0.9rem;
+}
+
+/* --- RESPONSIVE --- */
+/* Khi màn hình nhỏ hơn 992px (Tablet/Mobile) */
+@media (max-width: 991px) {
+    /* Chuyển bố cục thành cột dọc */
+    .game-with-ad-layout {
+        flex-direction: column;
+    }
+
+    /* Game chiếm full chiều ngang */
+    .game-area-left {
+        width: 100%;
+    }
+
+    /* ẨN quảng cáo sidebar đi vì không đủ chỗ trên mobile */
+    /* Bạn nên dùng một slot quảng cáo ngang khác đặt dưới game cho mobile */
+    .game-ad-sidebar {
+        display: none; 
+    }
+}

@@ -33,58 +33,40 @@
     </aside>
 
     <main class="main-content">
+    
+    <header class="top-header">...</header>
+
+    <div class="game-with-ad-layout">
         
-        <header class="top-header">
-            <div style="display:flex; align-items:center;">
-                <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
-                <div class="search-bar">
-                     <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"></path></svg>
-                    <input type="text" id="search-input" placeholder="Search games...">
+        <div class="game-area-left">
+            
+            <div class="game-wrapper" id="game-wrapper">
+                <iframe id="gameFrame" src="https://unblockedgames66.gitlab.io/10-minutes-till-dawn/" allowfullscreen></iframe>
+            </div>
+
+            <div class="game-controls">
+                <div>
+                    <h1 style="margin:0; font-size: 1.5rem;">10 Minutes Till Dawn</h1>
+                    <span style="font-size: 0.9rem; color: #888;">Action • Survival</span>
+                </div>
+                <div style="display:flex; gap:10px;">
+                    <button class="btn-action" onclick="openFullscreen()">
+                        ⛶ Fullscreen
+                    </button>
                 </div>
             </div>
-        </header>
+             <div class="game-description">
+                <h3>About This Game</h3>
+                <p>10 MINUTES TILL DAWN description...</p>
+            </div>
 
-        <div class="game-wrapper" id="game-wrapper">
-            <iframe id="gameFrame" src="https://unblockedgames66.gitlab.io/10-minutes-till-dawn/" allowfullscreen></iframe>
-        </div>
-
-        <div class="game-controls">
+        </div> <div class="game-ad-sidebar">
             <div>
-                <h1 style="margin:0; font-size: 1.5rem;">10 Minutes Till Dawn</h1>
-                <span style="font-size: 0.9rem; color: #888;">Action • Survival</span>
-            </div>
-            <div style="display:flex; gap:10px;">
-                <button class="btn-action" onclick="openFullscreen()">
-                    ⛶ Fullscreen
-                </button>
+                Google AdSense <br> Vertical Banner <br> (e.g., 300x600)
             </div>
         </div>
 
-        <div class="game-description">
-            <h3>About This Game</h3>
-            <p>10 MINUTES TILL DAWN is a thrilling online 2d game that puts you in the shoes of survivor trying to escape a zombie-infested world.</p>
-            <p><strong>Controls:</strong> Game is played with mouse and WASD keys.</p>
-        </div>
-
-        <h3 style="margin-bottom: 20px;">You May Also Like</h3>
-        <div class="crazy-grid">
-            <a class="game-card" href="/game/1v1-lol.html">
-                <img src="/assets/upload/66games/jpg/1v1-lol.jpg" alt="Game">
-                <div class="game-info"><div class="game-title">1v1.LOL</div></div>
-            </a>
-
-            <a class="game-card" href="/game/among-us.html">
-                <img src="/assets/upload/66games/jpg/among-us.jpg" alt="Game">
-                <div class="game-info"><div class="game-title">Among Us</div></div>
-            </a>
-            
-             <a class="game-card" href="/game/bad-ice-cream-2.html">
-                <img src="/assets/upload/66games/jpg/bad-ice-cream-2.jpg" alt="Game">
-                <div class="game-info"><div class="game-title">Bad Ice Cream 2</div></div>
-            </a>
-
-            </div>
-
+    </div> <h3 style="margin-bottom: 20px; margin-top: 40px;">You May Also Like</h3>
     </main>
 </div>
 
