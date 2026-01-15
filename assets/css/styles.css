@@ -2,12 +2,17 @@
 :root {
     --sidebar-width: 240px;
     --header-height: 70px;
-    --bg-body: #0f0f10; /* Màu nền tối kiểu game */
+    --bg-body: #0f0f10;
     --bg-card: #202022;
     --text-primary: #fff;
     --text-secondary: #a1a5b7;
-    --accent-color: #6c5ce7; /* Màu tím chủ đạo */
+    --accent-color: #6c5ce7;
     --gap-size: 16px;
+}
+
+/* THÊM MỚI: Reset Box-sizing để tính toán kích thước chuẩn xác */
+*, *::before, *::after {
+    box-sizing: border-box;
 }
 
 body {
@@ -16,25 +21,29 @@ body {
     color: var(--text-primary);
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
+    overflow-x: hidden; /* Chỉ ẩn thanh cuộn ngang của body */
 }
 
 a { text-decoration: none; color: inherit; transition: 0.3s; }
 
-/* --- BỐ CỤC CHÍNH (LAYOUT) --- */
+/* --- BỐ CỤC CHÍNH (LAYOUT - FLEXBOX) --- */
 .app-container {
-    display: block; /* Đổi từ flex sang block */
+    display: flex; /* Xếp Sidebar và Main nằm ngang hàng nhau */
+    width: 100%;
     min-height: 100vh;
 }
 
-/* 1. Sidebar (Thanh bên trái) */
+/* 1. Sidebar (Cố định nhưng chiếm chỗ) */
 .sidebar {
     width: var(--sidebar-width);
+    min-width: var(--sidebar-width); /* Cứng chiều rộng, không co giãn */
     background-color: #161618;
     height: 100vh;
-    position: fixed;
+    
+    /* Sticky: Dính chặt màn hình nhưng vẫn được tính là một khối trong Flexbox */
+    position: sticky; 
     top: 0;
-    left: 0;
+    
     overflow-y: auto;
     padding: 20px;
     z-index: 1000;
@@ -42,53 +51,32 @@ a { text-decoration: none; color: inherit; transition: 0.3s; }
     transition: transform 0.3s ease;
 }
 
+/* CSS cho nội dung bên trong Sidebar */
 .sidebar-logo {
     display: block;
     margin-bottom: 30px;
     text-align: center;
 }
 
-.nav-menu {
-    list-style: none;
-    padding: 0;
-}
-
-.nav-item {
-    margin-bottom: 8px;
-}
-
+.nav-menu { list-style: none; padding: 0; }
+.nav-item { margin-bottom: 8px; }
 .nav-link {
-    display: flex;
-    align-items: center;
-    padding: 10px 15px;
-    border-radius: 12px;
-    color: var(--text-secondary);
-    font-weight: 500;
-    font-size: 0.95rem;
+    display: flex; align-items: center; padding: 10px 15px;
+    border-radius: 12px; color: var(--text-secondary);
+    font-weight: 500; font-size: 0.95rem;
 }
-
 .nav-link:hover, .nav-link.active {
-    background-color: var(--bg-card);
-    color: #fff;
-    transform: translateX(5px);
+    background-color: var(--bg-card); color: #fff; transform: translateX(5px);
 }
+.nav-link svg { margin-right: 12px; width: 20px; height: 20px; }
 
-.nav-link svg {
-    margin-right: 12px;
-    width: 20px;
-    height: 20px;
-}
 
-/* 2. Main Content (Khu vực chính) */
+/* 2. Main Content (Tự động lấp đầy phần còn lại) */
 .main-content {
-    /* Quan trọng: Đẩy nội dung sang phải bằng đúng chiều rộng Sidebar */
-    margin-left: var(--sidebar-width); 
-    
-    /* Quan trọng: Chiều rộng phải trừ đi phần Sidebar để không bị thanh cuộn ngang */
-    width: calc(100% - var(--sidebar-width)); 
-    
+    flex-grow: 1; /* Chiếm hết khoảng trống còn lại bên phải Sidebar */
     padding: 20px;
-    box-sizing: border-box; /* Đảm bảo padding không làm vỡ khung */
+    width: 100%; /* Đảm bảo grid bên trong hoạt động đúng */
+    min-width: 0; /* Fix lỗi CSS Grid bị tràn trên một số trình duyệt cũ */
 }
 
 /* Header */
@@ -114,124 +102,64 @@ a { text-decoration: none; color: inherit; transition: 0.3s; }
     width: 100%;
     max-width: 400px;
 }
-
 .search-bar input {
-    background: transparent;
-    border: none;
-    color: #fff;
-    width: 100%;
-    outline: none;
-    margin-left: 10px;
+    background: transparent; border: none; color: #fff; width: 100%;
+    outline: none; margin-left: 10px;
 }
 
-/* --- GAME GRID (LƯỚI GAME - QUAN TRỌNG NHẤT) --- */
+/* --- GAME GRID --- */
 .crazy-grid {
     display: grid;
     grid-gap: var(--gap-size);
-    /* Mặc định Mobile: 2 cột */
     grid-template-columns: repeat(2, 1fr); 
 }
+@media (min-width: 576px) { .crazy-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 768px) { .crazy-grid { grid-template-columns: repeat(4, 1fr); } }
+@media (min-width: 992px) { .crazy-grid { grid-template-columns: repeat(5, 1fr); } }
+@media (min-width: 1200px) { .crazy-grid { grid-template-columns: repeat(6, 1fr); } }
+@media (min-width: 1600px) { .crazy-grid { grid-template-columns: repeat(8, 1fr); } }
 
-/* Tablet (Small): 3 cột */
-@media (min-width: 576px) {
-    .crazy-grid { grid-template-columns: repeat(3, 1fr); }
-}
-
-/* Tablet (Large): 4 cột */
-@media (min-width: 768px) {
-    .crazy-grid { grid-template-columns: repeat(4, 1fr); }
-}
-
-/* Laptop: 5 cột */
-@media (min-width: 992px) {
-    .crazy-grid { grid-template-columns: repeat(5, 1fr); }
-}
-
-/* Desktop: 6 cột */
-@media (min-width: 1200px) {
-    .crazy-grid { grid-template-columns: repeat(6, 1fr); }
-}
-
-/* Large Desktop (Màn hình to): 8 cột */
-@media (min-width: 1600px) {
-    .crazy-grid { grid-template-columns: repeat(8, 1fr); }
-}
-
-/* --- GAME CARD --- */
+/* GAME CARD */
 .game-card {
-    display: block;
-    position: relative;
-    border-radius: 16px;
-    overflow: hidden;
-    background-color: var(--bg-card);
-    aspect-ratio: 16/9; /* Tỷ lệ hình chữ nhật chuẩn game */
-    transition: transform 0.2s, box-shadow 0.2s;
+    display: block; position: relative; border-radius: 16px;
+    overflow: hidden; background-color: var(--bg-card);
+    aspect-ratio: 16/9; transition: transform 0.2s, box-shadow 0.2s;
 }
-
 .game-card:hover {
     transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
-    z-index: 2;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4); z-index: 2;
 }
-
-.game-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Đảm bảo ảnh không bị méo */
-}
-
-/* Tên game hiện khi hover (Kiểu CrazyGames mới) */
+.game-card img { width: 100%; height: 100%; object-fit: cover; }
 .game-info {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 10px;
+    position: absolute; bottom: 0; left: 0; right: 0; padding: 10px;
     background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-    opacity: 0;
-    transition: opacity 0.2s;
+    opacity: 0; transition: opacity 0.2s;
 }
-
-.game-card:hover .game-info {
-    opacity: 1;
-}
-
+.game-card:hover .game-info { opacity: 1; }
 .game-title {
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: #fff;
-    margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: center;
+    font-size: 0.85rem; font-weight: 700; color: #fff; margin: 0;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center;
 }
 
-/* --- RESPONSIVE (MOBILE/TABLET) --- */
-/* Khi màn hình nhỏ hơn 991px, Sidebar ẩn đi thì Nội dung phải tràn ra full màn hình */
-@media (max-width: 991px) {
-    .sidebar { 
-        transform: translateX(-100%); /* Ẩn sang trái */
-    } 
-    
-    .sidebar.active { 
-        transform: translateX(0); /* Hiện lại khi bấm nút menu */
-    } 
-    
-    .main-content { 
-        margin-left: 0; /* Trả lại không gian cho nội dung */
-        width: 100%;    /* Full màn hình */
-    }
-    
-    .mobile-menu-btn { 
-        display: block; 
-        margin-right: 15px; 
-    }
-}
+/* --- MOBILE & TABLET (Dưới 991px) --- */
+.mobile-menu-btn { display: none; background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; }
 
 @media (max-width: 991px) {
-    .sidebar { transform: translateX(-100%); width: 280px; } /* Ẩn sidebar */
-    .sidebar.active { transform: translateX(0); } /* Hiện khi bấm nút */
-    .main-content { margin-left: 0; }
+    /* Trên Mobile, Sidebar quay về chế độ Fixed để ẩn đi */
+    .sidebar {
+        position: fixed; 
+        left: 0; top: 0;
+        transform: translateX(-100%); /* Mặc định ẩn */
+        width: 260px; /* Rộng hơn chút trên mobile cho dễ bấm */
+        box-shadow: 5px 0 15px rgba(0,0,0,0.5);
+    }
+    
+    .sidebar.active { transform: translateX(0); } /* Hiện ra khi active */
+
+    .main-content {
+        padding: 15px; 
+        /* Không cần margin hay width đặc biệt vì Flexbox tự xử lý */
+    }
+
     .mobile-menu-btn { display: block; margin-right: 15px; }
 }
