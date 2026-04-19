@@ -361,6 +361,101 @@ a { text-decoration: none; color: inherit; transition: 0.3s; }
   padding: 0.35rem 0.4rem 0.3rem;
   margin: 0;
 }
+
+.card-masonry .card.card-collection .card-meta {
+  position: absolute;
+  left: 0.38rem;
+  bottom: 1.18rem;
+  z-index: 11;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  padding: 0.12rem 0.36rem;
+  border-radius: 999px;
+  background: rgba(17, 24, 39, 0.75);
+  border: 1px solid rgba(255,255,255,0.2);
+  backdrop-filter: blur(3px);
+}
+
+.card-masonry .card.card-collection .card-category-icon {
+  width: 0.68rem;
+  height: 0.68rem;
+  display: inline-flex;
+  color: #b7d0ff;
+}
+
+.card-masonry .card.card-collection .card-category-icon svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+.card-masonry .card.card-collection .card-category-label {
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #e5ecff;
+}
+
+.category-collection-grid .card.card-collection {
+  grid-column-end: span 2;
+  grid-row-end: span 1;
+  aspect-ratio: auto;
+  min-height: 120px;
+}
+
+.category-collection-grid .card.card-collection .card-collection-body {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  min-height: 120px;
+}
+
+.category-collection-grid .card.card-collection .card-img {
+  flex: 0 0 50%;
+  max-width: 50%;
+  padding-right: 10px;
+}
+
+.category-collection-grid .card.card-collection .card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.category-collection-grid .card.card-collection .card-text {
+  flex: 0 0 50%;
+  max-width: 50%;
+  padding: 10px 30px 10px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.category-collection-grid .card.card-collection .card-text h4 {
+  position: static;
+  background: none;
+  font-size: 0.875rem;
+  width: auto;
+  padding: 0;
+  margin: 0;
+  color: #fff;
+  font-weight: 600;
+}
+
+.category-collection-grid .card.card-collection:hover {
+  transform: translateY(-2px);
+}
+
+@media (max-width: 480px) {
+  .category-collection-grid .card.card-collection {
+    grid-column-end: span 2;
+  }
+}
 @media (max-width: 768px) {
   .card-masonry { grid-template-columns: repeat(auto-fill, minmax(98px, 1fr)); gap: 0.5rem; }
 }
