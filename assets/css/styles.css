@@ -376,6 +376,7 @@ a { text-decoration: none; color: inherit; transition: 0.3s; }
   color: #fff;
   background: linear-gradient(0deg, rgba(0,0,0,0.88) 0%, transparent 100%);
   display: -webkit-box;
+  line-clamp: 1;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
@@ -453,6 +454,7 @@ main > section > .container-fluid > .card-masonry:not(#home-games-grid) .card .h
   padding: 0;
   margin: 0;
   text-align: center;
+  line-clamp: 2;
   -webkit-line-clamp: 2;
 }
 
@@ -545,6 +547,7 @@ main > section.layout-text > .container-fluid > p {
   flex-direction: column;
   justify-content: center;
   gap: 0.4rem;
+  min-width: 0;
 }
 
 .category-collection-grid .card.card-collection .card-text h4 {
@@ -555,8 +558,15 @@ main > section.layout-text > .container-fluid > p {
   padding: 0;
   margin: 0;
   color: #fff;
+  word-break: normal;
+  overflow-wrap: normal;
   font-weight: 700;
   letter-spacing: 0.01em;
+}
+
+.category-collection-grid .card.card-collection .card-text .text-white-50 {
+  word-break: normal;
+  overflow-wrap: normal;
 }
 
 .category-collection-grid .card.card-collection:hover {
@@ -564,9 +574,17 @@ main > section.layout-text > .container-fluid > p {
   box-shadow: 0 12px 24px rgba(0,0,0,0.15);
 }
 
+@media (max-width: 991px) {
+  .category-collection-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 760px;
+  }
+}
+
 @media (max-width: 768px) {
   .category-collection-grid {
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: 1fr;
+    max-width: 420px;
   }
 }
 
