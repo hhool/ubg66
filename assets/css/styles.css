@@ -395,6 +395,18 @@ main > section > .container-fluid > .heading.mb-3 {
   margin-right: auto;
 }
 
+main > section.pt-4.pb-5:not(#games) > .container-fluid > .heading-page {
+  width: 100%;
+  max-width: 1264px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+
+main > section.pt-4.pb-5:not(#games) > .container-fluid > .heading-page p {
+  text-align: left;
+}
+
 main > section > .container-fluid > .card-masonry:not(#home-games-grid) {
   width: 100%;
   max-width: 1264px;
