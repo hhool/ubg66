@@ -159,7 +159,21 @@ def select_batch(html_files, start: int, limit: int):
     return html_files[start:end]
 
 
-def run(root_dir: Path, start: int = 0, limit: Optional[int] = None, only_game_pages: bool = False):
+def print_progress(current: int, total: int, updated: int):
+    if total <= 0:
+        percent = 100.0
+    else:
+        percent = (current / total) * 100
+    print(f"Progress: {current}/{total} ({percent:.1f}%) | updated: {updated}")
+
+
+def run(
+    root_dir: Path,
+    start: int = 0,
+    limit: Optional[int] = None,
+    only_game_pages: bool = False,
+    progress_every: int = 25,
+):
     cfg_path = root_dir / "scripts" / "seo_variables.json"
     cfg = json.loads(cfg_path.read_text(encoding="utf-8"))
 
@@ -170,9 +184,16 @@ def run(root_dir: Path, start: int = 0, limit: Optional[int] = None, only_game_p
     total_files = len(html_files)
     batch_limit = total_files - start if limit is None else limit
     files_to_process = select_batch(html_files, start, batch_limit)
+    batch_total = len(files_to_process)
+
+    end = start + batch_total
+    print(
+        f"Starting batch: range {start}:{end} of {total_files} total files "
+        f"(this run: {batch_total})"
+    )
 
     updated = 0
-    for file_path in files_to_process:
+    for idx, file_path in enumerate(files_to_process, start=1):
         rel_path = file_path.relative_to(root_dir).as_posix()
         page_type, page_name = page_type_and_name(rel_path)
         html = file_path.read_text(encoding="utf-8")
@@ -183,9 +204,11 @@ def run(root_dir: Path, start: int = 0, limit: Optional[int] = None, only_game_p
             file_path.write_text(new_html, encoding="utf-8")
             updated += 1
 
-    end = start + len(files_to_process)
+        if progress_every > 0 and (idx % progress_every == 0 or idx == batch_total):
+            print_progress(idx, batch_total, updated)
+
     print(
-        f"Processed {len(files_to_process)} HTML files (range {start}:{end} of {total_files}); "
+        f"Processed {batch_total} HTML files (range {start}:{end} of {total_files}); "
         f"updated {updated} files"
     )
 
@@ -221,6 +244,12 @@ def parse_args():
         action="store_true",
         help="process game/*.html only",
     )
+    parser.add_argument(
+        "--progress-every",
+        type=int,
+        default=25,
+        help="print progress every N files (default: 25; use 0 to disable intermediate logs)",
+    )
     args = parser.parse_args()
 
     if args.batch_index is not None and args.batch_size is None:
@@ -236,6 +265,9 @@ def parse_args():
         args.start = args.batch_index * args.batch_size
         args.limit = args.batch_size
 
+    if args.progress_every < 0:
+        parser.error("--progress-every must be >= 0")
+
     return args
 
 
@@ -247,4 +279,5 @@ if __name__ == "__main__":
         start=cli_args.start,
         limit=cli_args.limit,
         only_game_pages=cli_args.only_game_pages,
+        progress_every=cli_args.progress_every,
     )
