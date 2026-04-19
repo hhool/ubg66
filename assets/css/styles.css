@@ -519,7 +519,7 @@ main > section.layout-text > .container-fluid > p {
   display: flex;
   align-items: center;
   flex-direction: row;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   min-height: 120px;
   width: 100%;
 }
@@ -973,8 +973,8 @@ main > section.g-hero > .container > .g-hero-badges {
   font-size: 0.9rem;
   font-weight: 600;
   box-shadow: none;
-  text-align: center;
-  justify-content: center;
+  text-align: left;
+  justify-content: flex-start;
 }
 
 .home-faq .accordion-button:not(.collapsed) {
@@ -992,7 +992,25 @@ main > section.g-hero > .container > .g-hero-badges {
   background: #12121d;
   font-size: 0.88rem;
   line-height: 1.65;
-  text-align: center;
+  text-align: left;
+}
+
+.home-faq .accordion-body p {
+  margin-bottom: 0.65rem;
+}
+
+.home-faq .accordion-body p:last-child {
+  margin-bottom: 0;
+}
+
+.home-faq .accordion-body a {
+  color: #a89ee8;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.home-faq .accordion-body a:hover {
+  color: #c5bef5;
 }
 
 .home-faq .accordion {
@@ -1019,5 +1037,15 @@ main > section#faq.home-faq > .container-fluid > .heading-page p {
 @media (max-width: 575px) {
   .home-why-grid {
     grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+
+  .home-why-card {
+    padding: 0.75rem;
+  }
+
+  .home-why-card h4 {
+    min-height: 0;
+    margin-bottom: 0.3rem;
   }
 }
