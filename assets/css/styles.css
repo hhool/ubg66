@@ -387,6 +387,56 @@ a { text-decoration: none; color: inherit; transition: 0.3s; }
   margin: 0;
 }
 
+/* Category pages: 8 cards per row, centered; title below card and centered */
+main > section > .container-fluid > .card-masonry:not(#home-games-grid) {
+  width: 100%;
+  max-width: 1264px;
+  margin: 0 auto;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  justify-items: stretch;
+  align-items: start;
+  align-content: start;
+}
+
+main > section > .container-fluid > .card-masonry:not(#home-games-grid) .card {
+  aspect-ratio: auto;
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+  border: none;
+  overflow: visible;
+}
+
+main > section > .container-fluid > .card-masonry:not(#home-games-grid) .card picture {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: #161627;
+}
+
+main > section > .container-fluid > .card-masonry:not(#home-games-grid) .card .card-body {
+  position: static;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  width: 100%;
+  text-align: center;
+  padding: 0.42rem 0.2rem 0;
+}
+
+main > section > .container-fluid > .card-masonry:not(#home-games-grid) .card h3,
+main > section > .container-fluid > .card-masonry:not(#home-games-grid) .card .h3 {
+  position: static;
+  width: 100%;
+  background: none;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  -webkit-line-clamp: 2;
+}
+
 .card-masonry .card.card-collection .card-meta {
   position: absolute;
   left: 0.38rem;
