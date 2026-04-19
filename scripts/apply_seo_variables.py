@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 import argparse
+from difflib import get_close_matches
 import hashlib
+from html import unescape
 import json
 import re
 from pathlib import Path
@@ -68,6 +70,87 @@ def should_skip_file(rel_path: str) -> bool:
     return file_name.startswith("google") and file_name.endswith(".html")
 
 
+def normalize_slug(value: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "", value.lower())
+
+
+def build_image_index(root_dir: Path):
+    image_dir = root_dir / "assets" / "upload" / "66games" / "jpg"
+    index = {}
+    if not image_dir.exists():
+        return index
+
+    for path in image_dir.glob("*.jpg"):
+        key = normalize_slug(path.stem)
+        if key and key not in index:
+            index[key] = path.name
+    return index
+
+
+def resolve_game_image(base_url: str, rel_path: str, image_index: dict, default_image: str) -> str:
+    stem = Path(rel_path).stem
+    stem_key = normalize_slug(stem)
+
+    # Exact file-name match
+    exact_name = f"{stem}.jpg"
+    if stem_key in image_index and image_index[stem_key] == exact_name:
+        return f"{base_url}/assets/upload/66games/jpg/{exact_name}"
+
+    # Normalized match
+    if stem_key in image_index:
+        return f"{base_url}/assets/upload/66games/jpg/{image_index[stem_key]}"
+
+    # Fuzzy match for minor slug typos (e.g. phsyics vs physics)
+    close = get_close_matches(stem_key, list(image_index.keys()), n=1, cutoff=0.86)
+    if close:
+        return f"{base_url}/assets/upload/66games/jpg/{image_index[close[0]]}"
+
+    # Safe fallback
+    if default_image.startswith("http"):
+        return default_image
+    return f"{base_url}{default_image}"
+
+
+def extract_category_item_list(base_url: str, html: str, category_name: str):
+    pattern = re.compile(r'<a class="card" href="/game/([^"#?]+)\.html">.*?<h3>(.*?)</h3>', re.S | re.I)
+    matches = pattern.findall(html)
+
+    seen = set()
+    items = []
+    for slug, raw_name in matches:
+        if slug in seen:
+            continue
+        seen.add(slug)
+
+        name = re.sub(r"<[^>]+>", "", raw_name)
+        name = unescape(name).strip()
+        if not name:
+            name = title_case_from_slug(slug)
+
+        items.append((slug, name))
+        if len(items) >= 24:
+            break
+
+    if not items:
+        return None
+
+    return {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": f"{category_name} Games List",
+        "numberOfItems": len(items),
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": idx,
+                "url": f"{base_url}/game/{slug}.html",
+                "name": name,
+            }
+            for idx, (slug, name) in enumerate(items, start=1)
+        ],
+    }
+
+
 def build_breadcrumb(base_url: str, page_type: str, page_name: str, url: str):
     items = [
         {
@@ -132,7 +215,7 @@ def build_breadcrumb(base_url: str, page_type: str, page_name: str, url: str):
     }
 
 
-def build_seo_block(cfg: dict, rel_path: str, page_type: str, page_name: str) -> str:
+def build_seo_block(cfg: dict, rel_path: str, page_type: str, page_name: str, html: str, image_index: dict) -> str:
     site_name = cfg["site_name"]
     base_url = cfg["base_url"].rstrip("/")
     default_image = cfg["default_image"]
@@ -144,6 +227,8 @@ def build_seo_block(cfg: dict, rel_path: str, page_type: str, page_name: str) ->
 
     templates = cfg["templates"]
     extra_meta = []
+    robots_meta = "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"
+    og_type = "website"
 
     if page_type == "home":
         title = cfg["home"]["title"]
@@ -162,7 +247,7 @@ def build_seo_block(cfg: dict, rel_path: str, page_type: str, page_name: str) ->
     elif page_type == "error_404":
         title = f"404 Not Found | {site_name}"
         description = f"The page you requested could not be found on {site_name}. Browse the homepage to find more games."
-        extra_meta.append('<meta name="robots" content="noindex, follow">')
+        robots_meta = "noindex,follow"
         json_ld = {
             "@context": "https://schema.org",
             "@type": "WebPage",
@@ -171,6 +256,7 @@ def build_seo_block(cfg: dict, rel_path: str, page_type: str, page_name: str) ->
             "description": description,
         }
     elif page_type == "game":
+        og_type = "video.game"
         title = templates["game_title"].format(game_name=page_name, site_name=site_name)
         description = choose_variant(templates["game_description_variants"], rel_path).format(
             game_name=page_name,
@@ -182,7 +268,6 @@ def build_seo_block(cfg: dict, rel_path: str, page_type: str, page_name: str) ->
             "name": page_name,
             "url": url,
             "description": description,
-            "image": f"{base_url}/assets/upload/66games/jpg/{Path(rel_path).stem}.jpg",
             "publisher": {"@type": "Organization", "name": site_name},
         }
     elif page_type == "category":
@@ -210,16 +295,25 @@ def build_seo_block(cfg: dict, rel_path: str, page_type: str, page_name: str) ->
             "description": description,
         }
 
-    image = default_image if page_type != "game" else f"/assets/upload/66games/jpg/{Path(rel_path).stem}.jpg"
-    image_url = image if image.startswith("http") else f"{base_url}{image}"
+    if page_type == "game":
+        image_url = resolve_game_image(base_url, rel_path, image_index, default_image)
+        json_ld["image"] = image_url
+    else:
+        image = default_image
+        image_url = image if image.startswith("http") else f"{base_url}{image}"
 
     breadcrumb_ld = build_breadcrumb(base_url, page_type, page_name, url)
     if breadcrumb_ld is None:
         json_ld_payload = json_ld
     else:
+        graph = [json_ld, breadcrumb_ld]
+        if page_type == "category":
+            item_list_ld = extract_category_item_list(base_url, html, page_name)
+            if item_list_ld is not None:
+                graph.append(item_list_ld)
         json_ld_payload = {
             "@context": "https://schema.org",
-            "@graph": [json_ld, breadcrumb_ld],
+            "@graph": graph,
         }
 
     json_ld_str = json.dumps(json_ld_payload, ensure_ascii=True, separators=(",", ":"))
@@ -229,8 +323,12 @@ def build_seo_block(cfg: dict, rel_path: str, page_type: str, page_name: str) ->
         f"<title>{title}</title>",
         f"<meta name=\"description\" content=\"{description}\">",
         f"<link rel=\"canonical\" href=\"{url}\">",
+        f"<link rel=\"alternate\" hreflang=\"en\" href=\"{url}\">",
+        f"<link rel=\"alternate\" hreflang=\"x-default\" href=\"{url}\">",
+        f"<meta name=\"robots\" content=\"{robots_meta}\">",
         *extra_meta,
-        f"<meta property=\"og:type\" content=\"website\">",
+        f"<meta property=\"og:type\" content=\"{og_type}\">",
+        f"<meta property=\"og:locale\" content=\"en_US\">",
         f"<meta property=\"og:site_name\" content=\"{site_name}\">",
         f"<meta property=\"og:title\" content=\"{title}\">",
         f"<meta property=\"og:description\" content=\"{description}\">",
@@ -293,6 +391,7 @@ def run(
 ):
     cfg_path = root_dir / "scripts" / "seo_variables.json"
     cfg = json.loads(cfg_path.read_text(encoding="utf-8"))
+    image_index = build_image_index(root_dir)
 
     html_files = sorted(root_dir.rglob("*.html"))
     if only_game_pages:
@@ -316,7 +415,7 @@ def run(
         rel_path = file_path.relative_to(root_dir).as_posix()
         page_type, page_name = page_type_and_name(rel_path)
         html = file_path.read_text(encoding="utf-8")
-        seo_block = build_seo_block(cfg, rel_path, page_type, page_name)
+        seo_block = build_seo_block(cfg, rel_path, page_type, page_name, html, image_index)
         new_html = upsert_head_meta(html, seo_block)
 
         if new_html != html:

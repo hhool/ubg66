@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
+Sitemap: https://ubg66.poki2.online/sitemap.xml
 Sitemap: https://ubg66.poki2.online/sitemaps.xml

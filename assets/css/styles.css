@@ -395,7 +395,7 @@ main > section > .container-fluid > .heading.mb-3 {
   margin-right: auto;
 }
 
-main > section.pt-4.pb-5:not(#games) > .container-fluid > .heading-page {
+main > section.pt-4.pb-5:not(#games):not(#faq) > .container-fluid > .heading-page {
   width: 100%;
   max-width: 1264px;
   margin-left: auto;
@@ -403,7 +403,7 @@ main > section.pt-4.pb-5:not(#games) > .container-fluid > .heading-page {
   text-align: left;
 }
 
-main > section.pt-4.pb-5:not(#games) > .container-fluid > .heading-page p {
+main > section.pt-4.pb-5:not(#games):not(#faq) > .container-fluid > .heading-page p {
   text-align: left;
 }
 
@@ -454,6 +454,19 @@ main > section > .container-fluid > .card-masonry:not(#home-games-grid) .card .h
   margin: 0;
   text-align: center;
   -webkit-line-clamp: 2;
+}
+
+/* Category pages: align bottom description text to same left/right edges as icon grid */
+main > section.layout-text > .container-fluid,
+main > section.layout-text > .container-fluid > p {
+  width: 100%;
+  max-width: 1264px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+main > section.layout-text > .container-fluid > p {
+  text-align: left;
 }
 
 .card-masonry .card.card-collection .card-meta {
@@ -663,6 +676,55 @@ main > section > .container-fluid > .card-masonry:not(#home-games-grid) .card .h
   font-size: 0.85rem;
 }
 
+.footer .container-fluid {
+  width: 100%;
+  max-width: 1264px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.footer .row {
+  row-gap: 0.8rem;
+}
+
+.footer .fs-xs {
+  color: #a5abbe;
+  line-height: 1.55;
+}
+
+.footer .fs-xs p {
+  margin: 0.2rem 0 0;
+}
+
+.footer .nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.4rem 0.65rem;
+}
+
+.footer .nav-link {
+  color: #a7adbf;
+  padding: 0.42rem 0.7rem;
+  border-radius: 12px;
+}
+
+.footer .nav-link.active,
+.footer .nav-link:hover {
+  color: #f3f5ff;
+  background: rgba(255,255,255,0.08);
+}
+
+@media (max-width: 991px) {
+  .footer .col-12.col-md-6.col-lg-8.d-md-flex.justify-content-end {
+    justify-content: flex-start !important;
+  }
+
+  .footer .nav {
+    justify-content: flex-start;
+  }
+}
+
 /* ===== Override Bootstrap light theme with dark vars ===== */
 [data-bs-theme="light"] {
   --bs-body-bg: #0f0f10;
@@ -713,6 +775,11 @@ main > section > .container-fluid > .card-masonry:not(#home-games-grid) .card .h
   flex-wrap: wrap;
   gap: 0.5rem;
   margin-bottom: 1rem;
+  justify-content: center;
+}
+
+main > section.g-hero > .container > .g-hero-badges {
+  justify-content: center !important;
 }
 
 .g-hero-badge {
@@ -852,7 +919,8 @@ main > section > .container-fluid > .card-masonry:not(#home-games-grid) .card .h
   font-size: 0.9rem;
   font-weight: 600;
   box-shadow: none;
-  text-align: left;
+  text-align: center;
+  justify-content: center;
 }
 
 .home-faq .accordion-button:not(.collapsed) {
@@ -870,12 +938,22 @@ main > section > .container-fluid > .card-masonry:not(#home-games-grid) .card .h
   background: #12121d;
   font-size: 0.88rem;
   line-height: 1.65;
-  text-align: left;
+  text-align: center;
 }
 
 .home-faq .accordion {
   max-width: 1100px;
   margin: 0 auto;
+}
+
+.home-faq .heading-page,
+.home-faq .heading-page p {
+  text-align: center;
+}
+
+main > section#faq.home-faq > .container-fluid > .heading-page,
+main > section#faq.home-faq > .container-fluid > .heading-page p {
+  text-align: center !important;
 }
 
 @media (max-width: 991px) {

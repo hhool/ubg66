@@ -4,22 +4,22 @@
   "base_url": "https://ubg66.poki2.online",
   "default_image": "/assets/img/logo.png",
   "home": {
-    "title": "Unblocked Games 66 - Play 470+ Free Browser Games",
-    "description": "Play hundreds of unblocked games instantly. No download, no login, and works on school Chromebook devices."
+    "title": "Unblocked Games 66 - 470+ Free Online Games, No Download",
+    "description": "Play 470+ unblocked games online for free. No download, no login, and smooth browser gameplay on Chromebook, school PC, and mobile."
   },
   "templates": {
-    "game_title": "{game_name} - Play Online Free | {site_name}",
+    "game_title": "{game_name} Unblocked - Play Online Free | {site_name}",
     "game_description_variants": [
-      "Play {game_name} online for free on {site_name}. No download, instant browser gameplay on Chromebook and desktop.",
-      "{game_name} is available to play instantly in your browser. Enjoy free unblocked gameplay on {site_name}.",
-      "Start playing {game_name} now on {site_name}. Fast loading, no install required, and school-friendly browser support."
+      "Play {game_name} unblocked online for free on {site_name}. Instant browser gameplay with no download, no login, and Chromebook support.",
+      "{game_name} is ready to play instantly in your browser on {site_name}. Enjoy free unblocked gameplay at school or home.",
+      "Start {game_name} now on {site_name}. Fast loading, no install required, and smooth controls on desktop, Chromebook, and mobile."
     ],
-    "category_title": "{category_name} Games - Play Online Free | {site_name}",
+    "category_title": "{category_name} Games Unblocked - Play Online Free | {site_name}",
     "category_description_variants": [
-      "Browse {category_name} games and play online for free on {site_name}. Discover popular picks with no download required.",
-      "Play the best {category_name} games in your browser. Free, instant, and optimized for Chromebook on {site_name}.",
-      "Find top {category_name} games and start playing right away on {site_name}. No login, no installs, just click and play."
+      "Browse the best {category_name} games unblocked and play online for free on {site_name}. No download, no login, just instant browser play.",
+      "Play top-rated {category_name} games in your browser on {site_name}. Free, fast-loading, and optimized for Chromebook and school devices.",
+      "Find popular {category_name} games and start playing right away on {site_name}. Unblocked, instant, and easy to access anywhere."
     ],
-    "default_description": "Play free browser games online at {site_name}. No download and no login required."
+    "default_description": "Play free unblocked browser games online at {site_name}. No download, no login, and instant gameplay on any device."
   }
 }
