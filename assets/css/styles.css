@@ -315,7 +315,7 @@ a { text-decoration: none; color: inherit; transition: 0.3s; }
   margin: 0 auto;
   width: 100%;
   max-width: 1264px;
-  grid-template-columns: repeat(8, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
   gap: 0.9rem;
   justify-items: stretch;
   align-items: start;
@@ -327,10 +327,10 @@ a { text-decoration: none; color: inherit; transition: 0.3s; }
 }
 .category-collection-grid {
   display: grid !important;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1rem;
   margin: 0 auto;
-  max-width: 1400px;
+  max-width: 1100px;
 }
 
 .card-masonry .card {
@@ -411,7 +411,7 @@ main > section > .container-fluid > .card-masonry:not(#home-games-grid) {
   width: 100%;
   max-width: 1264px;
   margin: 0 auto;
-  grid-template-columns: repeat(8, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
   justify-items: stretch;
   align-items: start;
   align-content: start;
@@ -584,10 +584,10 @@ main > section.layout-text > .container-fluid > p {
   }
 }
 @media (max-width: 768px) {
-  .card-masonry { grid-template-columns: repeat(auto-fill, minmax(98px, 1fr)); gap: 0.5rem; }
+  .card-masonry { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.5rem; }
 }
 @media (max-width: 480px) {
-  .card-masonry { grid-template-columns: repeat(3, 1fr); gap: 0.4rem; }
+  .card-masonry { grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 0.4rem; }
 }
 
 /* --- Navbar category buttons --- */
