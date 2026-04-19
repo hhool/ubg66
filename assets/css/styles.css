@@ -388,6 +388,13 @@ a { text-decoration: none; color: inherit; transition: 0.3s; }
 }
 
 /* Category pages: 8 cards per row, centered; title below card and centered */
+main > section > .container-fluid > .heading.mb-3 {
+  width: 100%;
+  max-width: 1264px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 main > section > .container-fluid > .card-masonry:not(#home-games-grid) {
   width: 100%;
   max-width: 1264px;
