@@ -311,8 +311,16 @@ a { text-decoration: none; color: inherit; transition: 0.3s; }
 }
 #home-games-grid {
   margin: 0 auto;
-  max-width: 1000px;
-  grid-template-columns: repeat(8, 1fr);
+  width: 100%;
+  max-width: 1136px;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 0.8rem;
+  justify-items: stretch;
+  align-items: start;
+}
+
+#home-games-grid .card {
+  width: 100%;
 }
 .category-collection-grid {
   display: grid !important;
