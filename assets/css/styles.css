@@ -575,8 +575,8 @@ main > section.layout-text > .container-fluid > p {
 }
 
 @media (max-width: 991px) {
-  .category-collection-grid {
-    grid-template-columns: 1fr;
+  .card-masonry.category-collection-grid {
+    grid-template-columns: 1fr !important;
     max-width: 540px;
   }
 
@@ -604,8 +604,8 @@ main > section.layout-text > .container-fluid > p {
 }
 
 @media (max-width: 480px) {
-  .category-collection-grid {
-    grid-template-columns: 1fr;
+  .card-masonry.category-collection-grid {
+    grid-template-columns: 1fr !important;
     max-width: 100%;
   }
 
