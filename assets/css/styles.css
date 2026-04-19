@@ -332,6 +332,32 @@ a { text-decoration: none; color: inherit; transition: 0.3s; }
   margin: 0 auto;
   max-width: 1400px;
 }
+
+.all-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  justify-content: center;
+}
+
+.all-categories a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.28rem 0.62rem;
+  border-radius: 999px;
+  font-size: 0.73rem;
+  font-weight: 600;
+  color: #dfe4fa;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+.all-categories a:hover {
+  color: #fff;
+  background: rgba(108, 92, 231, 0.36);
+  border-color: rgba(108, 92, 231, 0.6);
+}
 .card-masonry .card {
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: 10px;
