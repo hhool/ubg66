@@ -315,7 +315,8 @@ a { text-decoration: none; color: inherit; transition: 0.3s; }
   margin: 0 auto;
   width: 100%;
   max-width: 1264px;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  /* Desktop: fixed max 6 columns, keep overall container width unchanged */
+  grid-template-columns: repeat(6, 1fr);
   gap: 0.9rem;
   justify-items: stretch;
   align-items: start;
@@ -327,10 +328,21 @@ a { text-decoration: none; color: inherit; transition: 0.3s; }
 }
 .category-collection-grid {
   display: grid !important;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  /* Desktop: fixed max 4 columns */
+  grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
   margin: 0 auto;
   max-width: 1100px;
+}
+
+/* Mobile breakpoint: categories 1 column, games 2 columns */
+@media screen and (max-width: 768px) {
+  .category-collection-grid {
+    grid-template-columns: 1fr;
+  }
+  #home-games-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .card-masonry .card {

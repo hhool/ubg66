@@ -398,6 +398,59 @@ table td {
   font-size: 24px;
 }
 
+/* Responsive grids for homepage categories and games
+   - Categories: 4 columns on desktop, 1 column on mobile
+   - Games: 6 columns on desktop, 2 columns on mobile
+   These containers are expected to live inside the existing `.wrapper` so overall page width remains unchanged. */
+.category-list,
+.game-list {
+  display: grid;
+  gap: 16px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Categories: max 4 columns on wider screens */
+.category-list {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* Games: max 6 columns on wider screens */
+.game-list {
+  grid-template-columns: repeat(6, 1fr);
+}
+
+/* Mobile breakpoint: stack categories, show 2 games per row */
+@media screen and (max-width: 768px) {
+  .category-list {
+    grid-template-columns: 1fr;
+  }
+  .game-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Map existing homepage selectors to the responsive grid rules so HTML doesn't need edits */
+.category-collection-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(4, 1fr);
+}
+#home-games-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(6, 1fr);
+}
+@media screen and (max-width: 768px) {
+  .category-collection-grid {
+    grid-template-columns: 1fr;
+  }
+  #home-games-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
 /**
  * Posts
  */
