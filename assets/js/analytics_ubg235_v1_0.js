@@ -19,6 +19,6 @@ window.addEventListener("load", function() {
 
     } else {
       console.log('Human Browser');
-      loadGoogleAnalytics("G-KFFPC3CBG0");
+      loadGoogleAnalytics("G-J4C6C07CBS");
     }
 });
