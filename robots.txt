@@ -1,4 +1,27 @@
+# Allow all search engine crawlers
 User-agent: *
 Allow: /
+
+# Bing Webmaster: explicit crawl-delay to prevent rate-limiting (seconds)
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 5
+
+# Block AI training scrapers (no search-ranking benefit, wastes crawl budget)
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
 Sitemap: https://ubg66.poki2.online/sitemap.xml
 Sitemap: https://ubg66.poki2.online/sitemaps.xml

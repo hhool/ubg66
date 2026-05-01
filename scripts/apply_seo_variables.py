@@ -65,8 +65,12 @@ def page_type_and_name(rel_path: str):
     return "default", Path(rel_path).stem.replace("-", " ").title()
 
 
+SKIP_FILES = {"BingSiteAuth.xml"}
+
 def should_skip_file(rel_path: str) -> bool:
     file_name = Path(rel_path).name
+    if file_name in SKIP_FILES:
+        return True
     return file_name.startswith("google") and file_name.endswith(".html")
 
 
